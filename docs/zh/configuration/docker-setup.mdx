@@ -29,6 +29,24 @@ docker run -d \
 
 启动时会自动识别旧方式挂载的 `/app/mcp_settings.json`，并优先于数据目录使用，因此原有 Docker 命令无需修改。显式设置的 `MCPHUB_SETTING_PATH` 始终拥有最高优先级。为完整持久化数据，应将配置文件及已有的 `.credentials.json`、`.credentials.key` 伴随文件一起迁入挂载的数据目录。仍支持显式覆盖 `MCPHUB_SETTING_PATH`。
 
+### 将 Fork 镜像发布到 GHCR
+
+`Build` GitHub Actions 工作流会使用内置的 `GITHUB_TOKEN` 和 `packages: write` 权限，将 Fork 镜像发布到 `ghcr.io/<owner>/<repository>`。首次运行前需在 Fork 中启用 Actions，无需配置 Docker Hub 凭据。上游 `samanhappy/mcphub` 仓库继续发布到 Docker Hub。
+
+向 `main` 推送提交后，默认镜像会发布为 `edge` 和 `sha-<完整提交 SHA>`，同时支持 `linux/amd64` 与 `linux/arm64`。推送 `v1.2.3` 等版本标签会发布 `1.2.3`，稳定版本还会更新 `latest`。Fork 默认只发布普通镜像；手动运行 `Build` 并启用 `include_full` 后，还会发布带 `-full` 后缀的扩展镜像。
+
+例如，可使用以下命令运行 `allen7wang/mcphub` Fork 的镜像：
+
+```bash
+docker run -d \
+  --name mcphub \
+  -p 3000:3000 \
+  -v ./data:/app/data \
+  ghcr.io/allen7wang/mcphub:edge
+```
+
+正式部署建议固定 `sha-<完整提交 SHA>` 标签或镜像摘要。新建的 GHCR 包默认为私有：拉取私有镜像前需执行 `docker login ghcr.io`，也可以将包设为公开以允许匿名拉取。
+
 ### 从源码构建
 
 ```bash

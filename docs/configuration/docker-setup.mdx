@@ -29,6 +29,24 @@ The image defaults to `/app/data/mcp_settings.json`. Mount the entire data direc
 
 Existing file mounts at `/app/mcp_settings.json` are detected automatically and take precedence over the data directory, so existing Docker commands keep working. An explicit `MCPHUB_SETTING_PATH` always takes precedence over both locations. For full persistence, migrate the settings file and its existing `.credentials.json` and `.credentials.key` sidecars together into the mounted data directory. Explicit `MCPHUB_SETTING_PATH` values remain supported.
 
+### Publishing a Fork to GHCR
+
+The `Build` GitHub Actions workflow publishes forks to `ghcr.io/<owner>/<repository>` using the built-in `GITHUB_TOKEN` with `packages: write` permission. Enable Actions in your fork before the first run; Docker Hub credentials are not required. The upstream `samanhappy/mcphub` repository continues publishing to Docker Hub.
+
+Pushes to `main` publish the default image as `edge` and `sha-<full-commit-sha>` for both `linux/amd64` and `linux/arm64`. Version tags such as `v1.2.3` publish `1.2.3`; stable version tags also update `latest`. Forks publish only the default image unless you manually run `Build` with `include_full` enabled, which also publishes tags with a `-full` suffix.
+
+For example, run the image from the `allen7wang/mcphub` fork with:
+
+```bash
+docker run -d \
+  --name mcphub \
+  -p 3000:3000 \
+  -v ./data:/app/data \
+  ghcr.io/allen7wang/mcphub:edge
+```
+
+For production, pin the `sha-<full-commit-sha>` tag or image digest. New GHCR packages are private by default: authenticate with `docker login ghcr.io` to pull a private image, or change the package visibility to public to allow anonymous pulls.
+
 ### Building from Source
 
 ```bash
