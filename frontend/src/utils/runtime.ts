@@ -17,6 +17,8 @@ export const getRuntimeConfig = (): RuntimeConfig => {
  * Get the base path from runtime configuration
  */
 export const getBasePath = (): string => {
+  const pagesBase = (window as Window & { __PAGES_BASE__?: string }).__PAGES_BASE__;
+  if (pagesBase) return pagesBase;
   const config = getRuntimeConfig();
   const basePath = config.basePath || '';
 

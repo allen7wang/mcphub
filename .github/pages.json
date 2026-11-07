@@ -1,0 +1,22 @@
+{
+  "title": "mcphub",
+  "source_repository": "allen7wang/mcphub",
+  "site_repository": "allen7wang/mcphub-web",
+  "commands": [
+    [
+      "npx",
+      "pnpm@10.12.4",
+      "frontend:typecheck"
+    ],
+    [
+      "npx",
+      "pnpm@10.12.4",
+      "frontend:build"
+    ]
+  ],
+  "directory": "frontend/dist",
+  "files": [
+    "frontend/dist"
+  ],
+  "backend": true
+}

@@ -205,3 +205,9 @@ Chinese users can also support via WeChat Pay — see [中文版](README.zh.md).
 ## 📄 License
 
 Licensed under the [Apache 2.0 License](LICENSE).
+
+## GitHub 网页访问
+
+[打开mcphub网页](https://allen7wang.github.io/mcphub-web/)。`main` 更新后由 `Publish GitHub Pages runtime` 自动验证、打包并同步网页运行文件；源码仓库的访问权限保持原设置。
+
+此版本托管前端界面。首次打开需填写已部署的 HTTPS 服务地址；账号、共享数据、模型调用或真实通信由该服务提供。服务需要允许本站跨域请求，使用 Cookie 时还需配置跨站凭据。地址只在当前浏览器保存，不随发布包提供令牌或示例账号。
